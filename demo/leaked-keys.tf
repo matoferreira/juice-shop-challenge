@@ -1,0 +1,11 @@
+resource "aws_instance" "demo" {
+  ami           = "ami-0c55b159cbfafe1f0"
+  instance_type = "t3.micro"
+
+  # Intentionally leaked material for 2ms PR decoration.
+  private_key = "-----BEGIN RSA PRIVATE KEY-----\nMIIEpAIBAAKCAQEA9GGWWnwmpRzO/07wPr/UgDZyIxYfOTeGi1EjM6xsIobhKtja\nmjP/uqq4lGevY1eny0ccHdTplk0nforoG7reA2FyByFFjuhB061JHIFIBSv6CU+x\nGxajVUgghpF8TrEWkulPQMXS874IDi1fQXoDlpicAuimORWboQLJDosoq0+1o8BH\nxTfjC/XN64KOSyEo+gPsIushm6Z8VYISAraC0s/UyCSwn9816QmWXQwhRpvdZNGH\nJfSIjc9muIuyzJCqOdh9pxDXpZPeCRXjGVhKX2+a6oW/2YOtBSvnSNHbvQ25GuzT\nrVixoL8HgwXWjR4C218Yh5eTf+vf36mVlF+PCQIDAQABAoIBABC1cOciJK7GmdkP\nK8Iwkb4L6vEe8LbT5u801powfGq+a9wG/GhNbJtV052y+qUJT9vIUoHwJiHsh8oh\nQ3Ys6EPVKGuYIOZA10pap1xrcvIGlBeJozdxzGxW7IFi5lvHhB56lPx94hrf9/NH\nMyN6DQ+Bgu44e6/8vBmtw/MqfNb8j5/IUZVgxRvnu9SLB8Tsht0chV6SyYWlanar\n9euP2LU3xJYdMvis9uWPcdWTxGNnzNKn+PME2UeZwTv/P/6ISeaWHNokyUi7PTuv\nc75HrvVzZPfDbnXd8ngmlImdJwrFvWiBHvCEDGc9wlmkfmc3xSkrycbDCjFgIewg\nz2sw4mECgYEA+yt/CbokNM2Ei/tZdggBAxGO0NmxMk3fEVlYMO4Gfl7nuKRsJ/wN\nz5XxvBn766TjNouZQrgMUFHBWNfZSkbeBEVQgcq5N0blsXumPecss5OURMVj0jUE\ngI2fra0+i3pZU6Gz/nuWQ0Eln0wAev/pOCFCsHfg2zDWFdsRNSZowyECgYEA+RSr\noRWIgF1CeYTCyi4ZNilHqqNr0dA6fTn4WuYJ4JWsQuj+m6hbQR277TMq8vh432IB\nONbXTHvIiMvlDIRWzkTM6q9kpkKy47FEvlPq+UbMXZH+31I31v/gHLdwDenc8ULG\nGexS4QUsAkpayc+RrkHhVdc061i+QrjrCyc9NukCgYEAxAYyY5kO4Nb093r3WxLs\nF0UAvSbpEGWODrA4EBf0oXPYTValwp8I+FYCD9gHsOVDHzLcLiIOGjF0QK5VO48L\nfzHJn0JkQyvl4Bqsp+tgC9bGBNY5DbmrBdmCIb3v7lNSm96754T0xRB3GFfsmBJa\nJiBvN+KXbvoyW2RZja2oXYECgYEAy9WenrSAgIvRWqDKx6nx9+DQRVR3Z7yAIPrP\nw5N9gcz6q8cAlWGxTBiJMhQtkajFQglx9pHanzytX0V8rEGgyCyFhYkDVQxAWRU4\nrIkAQf8uP2S6rwcZq1i6jsWPbdN0e/upIo3DRWJ2IWm34m97SJ+hSB5VsENtcCrk\nLrxt3AECgYBqrfYrXLIGkmPPZluI3MgIwnx/ZA2yLom4/I/Ep7dERFhdQFFr2gbc\novLSn5Fda4bD7vfX4hu9o+483WOszLLn5Wm3HPg7g8XXzl3/OU8ksGt5nfjKh4bT\nxfgICy6HUy6gYN+RpAhxbQunxXSYHBvOVpbobfRgUqQ1lGdOddLJSw==\n-----END RSA PRIVATE KEY-----"
+}
+
+variable "demo_api_key" {
+  default = "79ced0993805524c9232f28258b8cac5d11eaf7049c031b3"
+}
