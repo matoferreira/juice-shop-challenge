@@ -24,7 +24,11 @@ jobs:
       - name: Run 2ms filesystem scan
         run: |
           mkdir -p artifacts
-          docker run --rm -v "$PWD":/repo checkmarx/2ms \
+          chmod 777 artifacts
+          docker run --rm \
+            --user "$(id -u):$(id -g)" \
+            -v "$PWD":/repo \
+            checkmarx/2ms \
             filesystem --path /repo \
             --project-name juice-shop-filesystem \
             --ignore-pattern ".git" \

@@ -27,7 +27,11 @@ jobs:
       - name: Run 2ms git history scan
         run: |
           mkdir -p artifacts
-          docker run --rm -v "$PWD":/repo checkmarx/2ms \
+          chmod 777 artifacts
+          docker run --rm \
+            --user "$(id -u):$(id -g)" \
+            -v "$PWD":/repo \
+            checkmarx/2ms \
             git /repo --all-branches \
             --project-name juice-shop-git-history \
             --report-path /repo/artifacts/2ms-git-history.json \
