@@ -29,9 +29,9 @@ jobs:
             -v "$GITHUB_WORKSPACE":"$GITHUB_WORKSPACE" \
             -w "$GITHUB_WORKSPACE" \
             checkmarx/2ms \
-            git "$GITHUB_WORKSPACE" \
-            --report-path "$GITHUB_WORKSPACE/artifacts/2ms-git-history.json" \
-            --report-path "$GITHUB_WORKSPACE/artifacts/2ms-git-history.sarif" \
+            git . \
+            --report-path artifacts/2ms-git-history.json \
+            --report-path artifacts/2ms-git-history.sarif \
             --ignore-on-exit results
 
       - name: Upload JSON and SARIF reports
