@@ -21,51 +21,18 @@ jobs:
       - name: Checkout
         uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
 
-      - name: Run 2ms filesystem scan
+      - name: Run 2ms
         run: |
           mkdir -p artifacts
-          chmod 777 artifacts
           docker run --rm \
             --user "$(id -u):$(id -g)" \
-            -v "$PWD":/repo \
+            -v "$GITHUB_WORKSPACE":"$GITHUB_WORKSPACE" \
+            -w "$GITHUB_WORKSPACE" \
             checkmarx/2ms \
-            filesystem --path /repo \
-            --project-name juice-shop-filesystem \
-            --ignore-pattern ".git" \
-            --ignore-pattern "node_modules" \
-            --ignore-pattern "artifacts" \
-            --report-path /repo/artifacts/2ms-filesystem.json \
-            --report-path /repo/artifacts/2ms-filesystem.sarif \
+            filesystem --path "$GITHUB_WORKSPACE" \
+            --report-path "$GITHUB_WORKSPACE/artifacts/2ms-filesystem.json" \
+            --report-path "$GITHUB_WORKSPACE/artifacts/2ms-filesystem.sarif" \
             --ignore-on-exit results
-
-      - name: Normalize SARIF paths for GitHub
-        run: |
-          python3 <<'PY'
-          import json, re
-          path = "artifacts/2ms-filesystem.sarif"
-          with open(path) as handle:
-              sarif = json.load(handle)
-
-          def normalize(uri):
-              uri = (uri or "").replace("\\", "/")
-              if uri.startswith("/repo/"):
-                  return uri[len("/repo/"):]
-              match = re.match(r"^git show [^:]+:(.+)$", uri)
-              if match:
-                  return match.group(1)
-              return uri.lstrip("/") if uri.startswith("/") else uri
-
-          for run in sarif.get("runs", []):
-              for result in run.get("results", []):
-                  for location in result.get("locations", []):
-                      artifact = location.get("physicalLocation", {}).get("artifactLocation", {})
-                      if "uri" in artifact:
-                          artifact["uri"] = normalize(artifact["uri"])
-                          artifact["uriBaseId"] = "%SRCROOT%"
-
-          with open(path, "w") as handle:
-              json.dump(sarif, handle, indent=1)
-          PY
 
       - name: Upload JSON and SARIF reports
         uses: actions/upload-artifact@v4
