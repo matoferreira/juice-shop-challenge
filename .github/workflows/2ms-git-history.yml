@@ -1,6 +1,8 @@
 name: 2ms git history
 
 on:
+  push:
+    branches: [feature/historical]
   schedule:
     - cron: "0 6 * * 1"
   workflow_dispatch:
@@ -21,6 +23,9 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Fetch all branches
+        run: git fetch --prune --tags origin "+refs/heads/*:refs/remotes/origin/*"
+
       - name: Run 2ms
         run: |
           mkdir -p artifacts
@@ -29,7 +34,7 @@ jobs:
             -v "$GITHUB_WORKSPACE":"$GITHUB_WORKSPACE" \
             -w "$GITHUB_WORKSPACE" \
             checkmarx/2ms \
-            git . \
+            git . --all-branches \
             --report-path artifacts/2ms-git-history.json \
             --report-path artifacts/2ms-git-history.sarif \
             --ignore-on-exit results
