@@ -21,21 +21,17 @@ jobs:
       - name: Checkout
         uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
 
-      - name: Run 2ms filesystem scan
+      - name: Run 2ms
         run: |
           mkdir -p artifacts
-          chmod 777 artifacts
           docker run --rm \
             --user "$(id -u):$(id -g)" \
-            -v "$PWD":/repo \
+            -v "$GITHUB_WORKSPACE":"$GITHUB_WORKSPACE" \
+            -w "$GITHUB_WORKSPACE" \
             checkmarx/2ms \
-            filesystem --path /repo \
-            --project-name juice-shop-filesystem \
-            --ignore-pattern ".git" \
-            --ignore-pattern "node_modules" \
-            --ignore-pattern "artifacts" \
-            --report-path /repo/artifacts/2ms-filesystem.json \
-            --report-path /repo/artifacts/2ms-filesystem.sarif \
+            filesystem --path "$GITHUB_WORKSPACE" \
+            --report-path "$GITHUB_WORKSPACE/artifacts/2ms-filesystem.json" \
+            --report-path "$GITHUB_WORKSPACE/artifacts/2ms-filesystem.sarif" \
             --ignore-on-exit results
 
       - name: Upload JSON and SARIF reports
