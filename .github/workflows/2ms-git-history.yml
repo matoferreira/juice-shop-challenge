@@ -49,7 +49,7 @@ jobs:
 
       - name: Upload SARIF
         uses: github/codeql-action/upload-sarif@v3
-        continue-on-error: true
         with:
           sarif_file: artifacts/2ms-git-history.sarif
           category: 2ms-git-history
+
