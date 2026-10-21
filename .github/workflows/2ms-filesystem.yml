@@ -29,9 +29,9 @@ jobs:
             -v "$GITHUB_WORKSPACE":"$GITHUB_WORKSPACE" \
             -w "$GITHUB_WORKSPACE" \
             checkmarx/2ms \
-            filesystem --path "$GITHUB_WORKSPACE" \
-            --report-path "$GITHUB_WORKSPACE/artifacts/2ms-filesystem.json" \
-            --report-path "$GITHUB_WORKSPACE/artifacts/2ms-filesystem.sarif" \
+            filesystem --path . \
+            --report-path artifacts/2ms-filesystem.json \
+            --report-path artifacts/2ms-filesystem.sarif \
             --ignore-on-exit results
 
       - name: Upload JSON and SARIF reports
