@@ -1,0 +1,54 @@
+name: 2ms filesystem
+
+on:
+  push:
+    branches: [master, develop]
+  pull_request:
+    branches: [master, develop]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+  security-events: write
+
+jobs:
+  scan:
+    name: Scan files
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Checkout
+        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
+
+      - name: Run 2ms filesystem scan
+        run: |
+          mkdir -p artifacts
+          chmod 777 artifacts
+          docker run --rm \
+            --user "$(id -u):$(id -g)" \
+            -v "$PWD":/repo \
+            checkmarx/2ms \
+            filesystem --path /repo \
+            --project-name juice-shop-filesystem \
+            --ignore-pattern ".git" \
+            --ignore-pattern "node_modules" \
+            --ignore-pattern "artifacts" \
+            --report-path /repo/artifacts/2ms-filesystem.json \
+            --report-path /repo/artifacts/2ms-filesystem.sarif \
+            --ignore-on-exit results
+
+      - name: Upload JSON and SARIF reports
+        uses: actions/upload-artifact@v4
+        with:
+          name: 2ms-filesystem-reports
+          path: |
+            artifacts/2ms-filesystem.json
+            artifacts/2ms-filesystem.sarif
+          if-no-files-found: error
+
+      - name: Upload SARIF
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: artifacts/2ms-filesystem.sarif
+          category: 2ms-filesystem
